@@ -46,7 +46,7 @@ function displayProducts(data) {
     for (const produkt of Object.entries(data)) {
 
         let beskrivning;
-m        let namn;
+        let namn;
         let pris;
         let textContainer = setProductDescriptionContainer();
         let produktKort = setProductCard();
