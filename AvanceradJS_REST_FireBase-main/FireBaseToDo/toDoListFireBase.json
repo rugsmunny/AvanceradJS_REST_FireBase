@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Clara",
+    "title": "BOSS",
+    "to-dos": [
+      {
+        "task": "Run the world",
+        "done": false
+      },
+      {
+        "task": "Chill",
+        "done": false
+      }
+    ]
+  },
+  {
+    "name": "John",
+    "title": "Manager",
+    "to-dos": [
+      {
+        "task": "Schedule meeting",
+        "done": false
+      },
+      {
+        "task": "Prepare report",
+        "done": false
+      }
+    ]
+  },
+  {
+    "name": "Anna",
+    "title": "Coordinator",
+    "to-dos": [
+      {
+        "task": "Order supplies",
+        "done": false
+      },
+      {
+        "task": "Update spreadsheet",
+        "done": false
+      }
+    ]
+  }
+]
