@@ -7,7 +7,6 @@ const userContainer = document.getElementById('products');
 async function putNewUserTask(event) {
     event.preventDefault();
     const userId = document.getElementById('userSelector').value;
-    console.log("userid: "+ userId)
     const newTaskToAdd = document.getElementById('new-task').value;
 
     // Hämta ToDo-listan för användaren
@@ -40,59 +39,72 @@ function addEventlistenersToTasks() {
     taskStatus.forEach(task => task.addEventListener('click', checkTask));
 }
 
+function updateTaskInCard(eventTarget, data) {
+    
+    eventTarget.innerHTML = data.task;
+    eventTarget.classList.toggle('done-true')
+    eventTarget.classList.toggle('done-false')
+}
+
 function checkTask(event) {
 
     const [usID,tskID]  = event.target.id.split(':');
 
     const taskStatus = event.target.getAttribute('class').includes('false') ? 'true' : 'false';
 
-    updateTaskStatus(taskStatus, usID, tskID).then(r => console.log(r))
-        .then(() => userContainer.innerHTML = '').then(getUsers);
+    updateTaskStatus(taskStatus, usID, tskID)
+        .then(() => getUpdatedTask(event, usID, tskID));
 
 }
 
 async function updateTaskStatus(taskStatus, userId, taskId) {
 
-//Header-objektet, egenskaperna är bestämda
+
     const header = {
-//Egenskapsnamnet Content-type behöver citattecken eftersom det innehåller ett bindestreck.
+
         "Content-type": "application/json; charset=UTF-8"
     }
 
     const option = {
-        method: "PATCH", //Metoden som ska användas
-        body: JSON.stringify({done: taskStatus}), //Gör om datan till json
-        headers: header //Header-objektet
+        method: "PATCH",
+        body: JSON.stringify({done: taskStatus}),
+        headers: header
     };
 
     const URL = 'https://todolist-2f9b1-default-rtdb.europe-west1.firebasedatabase.app/' + userId + '/to-dos/' + taskId + '.json';
     await fetch(URL, option)
         .then(resp => resp.json())
-        .then(data => console.log(data));
 
 }
 
 async function getUsers() {
 
-
     await fetch('https://todolist-2f9b1-default-rtdb.europe-west1.firebasedatabase.app/.json')
         .then(resp => resp.json())
         .then(data => displayProducts(data))
+}
 
+async function getUpdatedTask(event, usId, tskId) {
+
+    await fetch('https://todolist-2f9b1-default-rtdb.europe-west1.firebasedatabase.app/' + usId + '/to-dos/' + tskId + '.json')
+        .then(resp => resp.json()).then(data => updateTaskInCard(event.target, data));
 
 }
 
 function displayProducts(data) {
 
+    let name, userId;
+    let title;
+    let toDos, taskId;
+
     for (const entry of Object.entries(data)) {
 
-        let name, userId;
-        let title;
-        let toDos, taskId;
         let textContainer = setUserDescriptionContainer();
         let produktKort = setUserCard();
 
         Object.keys(entry[1]).map(key => {
+
+
             const value = Object.getOwnPropertyDescriptor(entry[1], key).value;
 
             switch (key) {
@@ -116,16 +128,19 @@ function displayProducts(data) {
 
         const br1 = document.createElement('br');
         const br2 = document.createElement('br');
+
         textContainer.append(setUserName(name, userId));
         textContainer.append(br1);
         textContainer.append(setUserTitle(title));
         textContainer.append(br2);
         textContainer.append('Users ToDo-list: ');
+
         taskId = 0;
-        toDos.forEach(i => {
+
+        toDos.forEach(toDo => {
 
             textContainer.append(document.createElement('br'));
-            textContainer.append(setUsersToDos(i, userId, taskId));
+            textContainer.append(setUsersToDos(toDo, userId, taskId));
             taskId++;
 
         })
@@ -156,25 +171,26 @@ function setUserTitle(title) {
     return p;
 }
 
-function setUsersToDos(toDoList, userId, taskId) {
-    if (!toDoList) {
+function setUsersToDos(toDo, userId, taskId) {
+
+    if (!toDo) {
         return null;
     }
+
     const toDoContainer = document.createElement('div');
     toDoContainer.setAttribute('class', 'todo-container');
 
     const pTask = document.createElement('p');
     pTask.setAttribute('id', userId + ':' + taskId)
 
-    if ('task' in toDoList) {
-        pTask.innerText += toDoList.task;
+    if ('task' in toDo) {
+        pTask.innerText += toDo.task;
     } else {
         pTask.innerText += 'No task provided';
     }
 
-    toDoList.done === 'true' ? pTask.setAttribute('class', 'done-true') : pTask.setAttribute('class', 'done-false');
+    toDo.done === 'true' ? pTask.setAttribute('class', 'done-true') : pTask.setAttribute('class', 'done-false');
 
-    pTask.innerText += ': ' + toDoList.done;
     toDoContainer.append(pTask);
 
     return toDoContainer;
