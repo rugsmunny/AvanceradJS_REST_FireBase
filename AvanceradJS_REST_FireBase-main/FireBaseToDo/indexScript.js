@@ -42,17 +42,12 @@ function addEventlistenersToTasks() {
 
 function checkTask(event) {
 
-    const userId = event.target.parentElement.parentElement.firstChild.id;
-    const taskId = event.target.id;
-    if (event.target.getAttribute('class').includes('false')) {
-        event.target.setAttribute('class', 'done-true');
-        updateTaskStatus('true', userId, taskId).then(r => console.log(r))
-            .then(() => userContainer.innerHTML = '').then(getUsers);
-    } else {
-        event.target.setAttribute('class', 'done-false');
-        updateTaskStatus('false', userId, taskId).then(r => console.log(r))
-            .then(() => userContainer.innerHTML = '').then(getUsers);
-    }
+    const [usID,tskID]  = event.target.id.split(':');
+
+    const taskStatus = event.target.getAttribute('class').includes('false') ? 'true' : 'false';
+
+    updateTaskStatus(taskStatus, usID, tskID).then(r => console.log(r))
+        .then(() => userContainer.innerHTML = '').then(getUsers);
 
 }
 
@@ -169,7 +164,7 @@ function setUsersToDos(toDoList, userId, taskId) {
     toDoContainer.setAttribute('class', 'todo-container');
 
     const pTask = document.createElement('p');
-    pTask.setAttribute('id', userId+taskId)
+    pTask.setAttribute('id', userId + ':' + taskId)
 
     if ('task' in toDoList) {
         pTask.innerText += toDoList.task;
