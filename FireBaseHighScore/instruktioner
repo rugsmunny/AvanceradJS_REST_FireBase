@@ -1,0 +1,64 @@
+Simulerad Highscore
+
+Firebase
+    Skapa en databas som heter highscore
+    Databasen ska innehålla fem objekt
+    Varje objekt ska från början innehålla
+
+        name: undefined
+        score: 0
+
+HTML
+    Skapa ett form med två inputs
+
+        text för user
+        number för score
+
+JS
+    Hämta och visa den aktuella highscorelistan
+    När en användare fyller i formuläret ska databasen
+    uppdateras så att högsta poäng ligger på plats 0 och
+    lägsta poäng ligger på plats 4.
+
+Exempel
+    Före
+
+        name: Astrid Lindgren
+        score: 90889
+
+        name: Chuck Norris
+        score: 102
+
+        name: undefined
+        score: 0
+
+        name: undefined
+        score: 0
+
+        name: undefined
+        score: 0
+
+    New entry:
+        {
+	    name: Clara
+	    score: 333
+        }
+
+New Highscore
+
+        name: Astrid Lindgren
+        score: 90889
+
+        name: Clara
+        score: 333
+
+
+        name: Chuck Norris
+        score: 102
+
+        name: undefined
+        score: 0
+
+        name: undefined
+        score: 0
+

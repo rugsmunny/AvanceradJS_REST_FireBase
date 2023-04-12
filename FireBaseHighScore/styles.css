@@ -1,0 +1,65 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: hotpink;
+}
+#haj-score{
+    text-align: center;
+    margin-top: 3em;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 20rem;
+    background-color: lightgray;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+    padding: 2px 16px;
+    align-content: end;
+}
+
+#scoreboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+}
+
+
+
+#high-score-form{
+    display: flex;
+    flex-direction: column;
+    width: 15em;
+    padding: 1em;
+
+}
+
+input {
+    margin: 0.5em;
+    height: 2em;
+    padding-left: 0.5em;
+    font-weight: bolder;
+    font-size: 1rem;
+
+}
+p{
+    font-weight: bolder;
+}
+#high-score-submit{
+    width: 60%;
+    height: 2rem;
+    margin-top: 0.3em;
+    align-self: start;
+    margin-left: 0.5rem;
+}
